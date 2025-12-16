@@ -249,14 +249,15 @@ function highlightNavLink() {
 window.addEventListener('scroll', highlightNavLink);
 
 // ==================== CURSOR TRAIL EFFECT ====================
-const coords = { x: 0, y: 0 };
-const circles = [];
-const colors = ['#FFD700', '#FF8C42', '#00B4D8', '#8338EC', '#FF006E'];
+if (window.innerWidth > 768) {
+    const coords = { x: 0, y: 0 };
+    const circles = [];
+    const colors = ['#FFD700', '#FF8C42', '#00B4D8', '#8338EC', '#FF006E'];
 
-// Create 20 circles for the trail
-for (let i = 0; i < 20; i++) {
-    const circle = document.createElement('div');
-    circle.style.cssText = `
+    // Create 20 circles for the trail
+    for (let i = 0; i < 20; i++) {
+        const circle = document.createElement('div');
+        circle.style.cssText = `
         position: fixed;
         width: 10px;
         height: 10px;
@@ -266,37 +267,38 @@ for (let i = 0; i < 20; i++) {
         opacity: 0;
         transition: opacity 0.3s ease;
     `;
-    circle.style.backgroundColor = colors[i % colors.length];
-    document.body.appendChild(circle);
-    circles.push(circle);
-}
+        circle.style.backgroundColor = colors[i % colors.length];
+        document.body.appendChild(circle);
+        circles.push(circle);
+    }
 
-// Track mouse movement
-window.addEventListener('mousemove', (e) => {
-    coords.x = e.clientX;
-    coords.y = e.clientY;
-});
-
-// Animate circles
-function animateCircles() {
-    let x = coords.x;
-    let y = coords.y;
-
-    circles.forEach((circle, index) => {
-        circle.style.left = x - 5 + 'px';
-        circle.style.top = y - 5 + 'px';
-        circle.style.opacity = (20 - index) / 20;
-        circle.style.transform = `scale(${(20 - index) / 20})`;
-
-        const nextCircle = circles[index + 1] || circles[0];
-        x += (parseInt(nextCircle.style.left) - x) * 0.3;
-        y += (parseInt(nextCircle.style.top) - y) * 0.3;
+    // Track mouse movement
+    window.addEventListener('mousemove', (e) => {
+        coords.x = e.clientX;
+        coords.y = e.clientY;
     });
 
-    requestAnimationFrame(animateCircles);
-}
+    // Animate circles
+    function animateCircles() {
+        let x = coords.x;
+        let y = coords.y;
 
-animateCircles();
+        circles.forEach((circle, index) => {
+            circle.style.left = x - 5 + 'px';
+            circle.style.top = y - 5 + 'px';
+            circle.style.opacity = (20 - index) / 20;
+            circle.style.transform = `scale(${(20 - index) / 20})`;
+
+            const nextCircle = circles[index + 1] || circles[0];
+            x += (parseInt(nextCircle.style.left) - x) * 0.3;
+            y += (parseInt(nextCircle.style.top) - y) * 0.3;
+        });
+
+        requestAnimationFrame(animateCircles);
+    }
+
+    animateCircles();
+}
 
 // ==================== SKILL CARD TILT EFFECT ====================
 const skillCards = document.querySelectorAll('.skill-card');
