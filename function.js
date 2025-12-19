@@ -124,6 +124,48 @@ const contactForm = document.getElementById('contactForm');
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    // Get form fields
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const subjectInput = document.getElementById('subject');
+    const messageInput = document.getElementById('message');
+
+    // Validation
+    // Check Name
+    if (!nameInput.value.trim()) {
+        showNotification('Please enter your name.', 'error');
+        nameInput.focus();
+        return;
+    }
+
+    // Check Email
+    if (!emailInput.value.trim()) {
+        showNotification('Please enter your email.', 'error');
+        emailInput.focus();
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput.value.trim())) {
+        showNotification('Please enter a valid email address.', 'error');
+        emailInput.focus();
+        return;
+    }
+
+    // Check Subject
+    if (!subjectInput.value.trim()) {
+        showNotification('Please enter a subject.', 'error');
+        subjectInput.focus();
+        return;
+    }
+
+    // Check Message
+    if (!messageInput.value.trim()) {
+        showNotification('Please enter a message.', 'error');
+        messageInput.focus();
+        return;
+    }
+
     // Show loading state
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
